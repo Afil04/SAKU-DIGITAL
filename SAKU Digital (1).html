@@ -1,0 +1,309 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SAKU Digital</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Lexend:wght@300;400;500;600&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+:root{
+  --ink:#0A2A45;
+  --ink-soft:#3E5A72;
+  --paper:#EEF3F6;
+  --card:#FFFFFF;
+  --line:#D3DEE6;
+  --saku:#F2B630;
+  --saku-ink:#3A2A00;
+  --mint:#DDF1EA;
+  --mint-ink:#0E3B30;
+  --warn:#FFF1D6; --warn-line:#E7A83A;
+  --out:#F0EEF8; --out-line:#9C92C9;
+  --display:"Baloo 2", "Trebuchet MS", system-ui, sans-serif;
+  --body:"Lexend", "Segoe UI", system-ui, sans-serif;
+}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ink:#E4EEF6; --ink-soft:#A5BACB; --paper:#0B1B2A; --card:#11263A; --line:#24405A;
+    --saku:#F2B630; --saku-ink:#2A1E00; --mint:#163A33; --mint-ink:#D2F2E7;
+    --warn:#3A2C10; --warn-line:#C98E2A; --out:#25223A; --out-line:#7C72AE; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#E4EEF6; --ink-soft:#A5BACB; --paper:#0B1B2A; --card:#11263A; --line:#24405A;
+  --saku:#F2B630; --saku-ink:#2A1E00; --mint:#163A33; --mint-ink:#D2F2E7;
+  --warn:#3A2C10; --warn-line:#C98E2A; --out:#25223A; --out-line:#7C72AE; color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:15px;
+  line-height:1.55;
+  padding-block:24px 40px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  margin:0;
+}
+
+.wrap{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:40px;align-items:start}
+@media (max-width:860px){.wrap{grid-template-columns:1fr;gap:24px}.phone{order:-1}}
+
+.about{min-width:0;padding-top:12px}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);font-weight:500}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(34px,5vw,48px);line-height:1.05;margin:6px 0 12px;text-wrap:balance}
+h1 span{background:linear-gradient(transparent 62%,var(--saku) 62%);padding:0 4px}
+.lead{font-size:17px;max-width:52ch;color:var(--ink);margin:0 0 20px}
+.sim{display:inline-flex;gap:8px;align-items:center;font-size:13px;border:1.5px dashed var(--ink-soft);border-radius:999px;padding:4px 12px;color:var(--ink-soft);margin-bottom:24px}
+.try{display:grid;gap:10px;margin:0 0 24px;padding:0;list-style:none;max-width:56ch}
+.try li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.try b{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--saku);color:var(--saku-ink);font-family:var(--display);font-size:15px}
+.note{font-size:13px;color:var(--ink-soft);max-width:60ch;border-top:1px solid var(--line);padding-top:14px}
+
+.phone{background:var(--card);border:1px solid var(--line);border-radius:28px;overflow:hidden;display:flex;flex-direction:column;height:min(760px,calc(100vh - 48px));min-height:560px;box-shadow:0 18px 40px -24px rgba(10,42,69,.45)}
+.bar{background:var(--ink);color:var(--paper);padding:14px 16px 12px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .bar{background:#071422;color:#E4EEF6}}
+:root[data-theme="dark"] .bar{background:#071422;color:#E4EEF6}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:36px;height:36px;border-radius:10px;background:var(--saku);color:var(--saku-ink);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:18px}
+.brand strong{font-family:var(--display);font-size:20px;line-height:1}
+.brand small{display:block;font-size:11.5px;opacity:.8}
+.modes{display:flex;gap:6px;margin-top:12px;background:rgba(255,255,255,.1);padding:4px;border-radius:12px}
+.modes button{flex:1;border:0;background:transparent;color:inherit;font:inherit;font-size:13px;padding:7px 4px;border-radius:9px;cursor:pointer}
+.modes button[aria-pressed="true"]{background:var(--saku);color:var(--saku-ink);font-weight:600}
+
+.log{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;background:var(--card);border-bottom:1px solid rgba(255,255,255,0.1)}
+.msg{max-width:88%;padding:10px 13px;border-radius:16px;font-size:14.5px;white-space:pre-line}
+.me{align-self:flex-end;background:var(--ink);color:var(--paper);border-bottom-right-radius:5px}
+
+.bot{align-self:flex-start;background:var(--mint);color:var(--mint-ink);border-bottom-left-radius:5px}
+.bot.warn{background:var(--warn);border:1.5px solid var(--warn-line);color:var(--ink)}
+.bot.out{background:var(--out);border:1.5px solid var(--out-line);color:var(--ink)}
+.tag{display:inline-block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;margin-bottom:4px;opacity:.75}
+.ref{margin-top:8px;padding-top:8px;border-top:1px dashed currentColor;font-size:12px;opacity:.85;white-space:normal}
+
+.chips{display:flex;gap:6px;overflow-x:auto;padding:10px 12px 4px;border-top:none !important;scrollbar-width:none;white-space:nowrap;width:100%}
+.chips::-webkit-scrollbar{display:none}
+.chips button, .chip-btn{flex:none;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;font:inherit;font-size:12.5px;padding:6px 11px;cursor:pointer}
+.chips button:hover{border-color:var(--ink-soft)}
+
+#f{display:flex;align-items:flex-end;gap:10px;width:100%;padding:8px 12px 14px;border-top:none !important}
+#q{
+  flex:1;
+  background:transparent;
+  border:1px solid var(--line);
+  border-radius:20px;
+  color:var(--ink);
+  font-family:inherit;
+  font-size:14px;
+  padding:10px 16px;
+  outline:none;
+  resize:none;
+  overflow-y:auto;
+  min-height:42px;
+  max-height:120px;
+  box-sizing:border-box;
+}
+#q::placeholder{color:var(--ink-soft)}
+#q:focus{border-color:var(--saku)}
+
+#f button, .send{
+  height:42px;
+  padding:0 20px;
+  border-radius:20px;
+  flex-shrink:0;
+  white-space:nowrap;
+  border:0;
+  background:var(--saku);
+  color:var(--saku-ink);
+  font-family:var(--display);
+  font-weight:700;
+  font-size:15px;
+  cursor:pointer;
+}
+
+.bot-answer-content p{margin:0 0 8px 0}
+.bot-answer-content ul,.bot-answer-content ol{margin:4px 0 8px 0;padding-left:20px}
+.bot-answer-content li{margin-bottom:4px}
+.citation-box{
+  margin-top:10px;
+  padding:8px 12px;
+  background-color:rgba(10,42,69,0.08);
+  border-left:4px solid var(--saku);
+  border-radius:6px;
+  font-size:12.5px;
+  color:var(--ink);
+}
+.foot{font-size:11px;color:var(--ink-soft);text-align:center;padding:0 12px 10px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <section class="about">
+    <div class="eyebrow">Purwarupa · AI Innovation Competition Digiwave 2026</div>
+    <h1>SAKU Digital, <span>pendamping sosialisasi</span> yang tetap menjawab setelah acara selesai</h1>
+    <p class="lead">Peserta sosialisasi memindai QR code, lalu bertanya tentang PP Tunas, data pribadi, perundungan siber, penipuan daring, dan perangkat bersertifikat. Jawaban hanya dari dokumen resmi, dengan bahasa yang menyesuaikan usia.</p>
+    <ol class="try">
+      <li><b>1</b><span>Pilih <strong>mode</strong> di atas layar ponsel, lalu ketuk salah satu contoh pertanyaan. Bandingkan jawaban mode Dewasa, SMP, dan SD.</span></li>
+      <li><b>2</b><span>Ketik <strong>"Temanku menyebar fotoku"</strong> untuk melihat respons eskalasi: chatbot tidak menasihati panjang, tetapi mengarahkan ke orang dewasa tepercaya dan kanal pengaduan.</span></li>
+      <li><b>3</b><span>Ketik <strong>"Siapa juara sepak bola?"</strong> atau ketik pertanyaan bebas. Pertanyaan di luar cakupan ditolak dengan sopan, bukan dikarang.</span></li>
+      <li>
+        <b>4</b>
+        <span>
+          Jangan lupa mengisi survei berikut untuk masukan selanjutnya: 
+          <a href="https://bit.ly/Survei_Saku_Digital" target="_blank" style="color: #f59e0b; text-decoration: underline; font-weight: 600;">
+            bit.ly/SurveiSAKUDigital
+          </a>
+        </span>
+      </li>
+    </ol>
+    <p class="note">Jawaban disusun AI dari PP 17/2025, Permenkomdigi 9/2026, UU 27/2022, materi literasi digital resmi, dan materi perangkat/perizinan unit, lengkap dengan rujukan pasal. Tidak ada login dan tidak ada data pribadi yang diminta.</p>
+  </section>
+
+  <section class="phone" aria-label="Simulasi chatbot SAKU Digital">
+    <div class="bar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">S</div>
+        <div><strong>SAKU Digital</strong><small>Sahabat aman di ruang digital</small></div>
+      </div>
+      <div class="modes" role="group" aria-label="Mode jawaban">
+        <button type="button" id="m-dewasa" data-mode="dewasa" aria-pressed="true">Dewasa</button>
+        <button type="button" id="m-smp" data-mode="smp" aria-pressed="false">SMP</button>
+        <button type="button" id="m-sd" data-mode="sd" aria-pressed="false">SD</button>
+      </div>
+    </div>
+    
+    <div class="log" id="log" aria-live="polite"></div>
+    
+    <div class="chips">
+      <button type="button" class="chip-btn" onclick="fillQuery('Apa itu PP Tunas?')">💡 Apa itu PP Tunas?</button>
+      <button type="button" class="chip-btn" onclick="fillQuery('Apa itu data pribadiku?')">🔒 Apa itu data pribadiku?</button>
+      <button type="button" class="chip-btn" onclick="fillQuery('Bagaimana cara melapor jika saya mengalami perundungan atau kekerasan di internet?')">🛡️ Lapor Pengaduan</button>
+    </div>
+
+    <form id="f">
+      <textarea id="q" rows="1" autocomplete="off" placeholder="Tulis pertanyaanmu..." aria-label="Pertanyaan" oninput="autoResize(this)" onkeydown="handleKeyPress(event)"></textarea>
+      <button class="send" type="submit">Kirim</button>
+    </form>
+    
+    <div class="foot">Jangan tulis nama, sekolah, alamat, atau nomor HP di sini.</div>
+  </section>
+</div>
+
+<script>
+let conversationId = null;
+let currentMode = "Dewasa";
+
+const modeButtons = [
+  document.getElementById('m-dewasa'),
+  document.getElementById('m-smp'),
+  document.getElementById('m-sd')
+];
+
+modeButtons.forEach(btn => {
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    modeButtons.forEach(b => b.setAttribute('aria-pressed', 'false'));
+    btn.setAttribute('aria-pressed', 'true');
+    currentMode = btn.textContent.trim();
+  });
+});
+
+const form = document.getElementById('f');
+const queryInput = document.getElementById('q');
+const logDiv = document.getElementById('log');
+
+form.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  
+  const userQuestion = queryInput.value.trim();
+  if (!userQuestion) return;
+
+  logDiv.innerHTML += `<div style="text-align: right; margin-bottom: 10px; color: var(--ink);"><b>Kamu:</b> ${userQuestion}</div>`;
+  queryInput.value = '';
+  queryInput.style.height = '42px';
+  logDiv.scrollTop = logDiv.scrollHeight;
+
+  const loadingId = 'loading-' + Date.now();
+  logDiv.innerHTML += `<div id="${loadingId}" style="text-align: left; margin-bottom: 10px; color: var(--ink);"><i>SAKU Digital sedang mengetik...</i></div>`;
+  logDiv.scrollTop = logDiv.scrollHeight;
+
+  try {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: userQuestion,
+        conversation_id: conversationId,
+        mode: currentMode
+      })
+    });
+    const data = await response.json();
+    if (data && data.conversation_id) {
+      conversationId = data.conversation_id;
+    }
+
+    const loadingEl = document.getElementById(loadingId);
+    if (data && data.answer) {
+      let rawAnswer = data.answer;
+      let mainContent = rawAnswer;
+      let citationHTML = '';
+
+      if (rawAnswer.includes("Rujukan:")) {
+        const parts = rawAnswer.split("Rujukan:");
+        mainContent = parts[0].trim();
+        const citationText = parts[1].trim();
+        citationHTML = `<div class="citation-box">📌 <strong>Rujukan:</strong> ${marked.parseInline(citationText)}</div>`;
+      }
+
+      const formattedMain = marked.parse(mainContent);
+
+      loadingEl.innerHTML = `
+        <b>SAKU Digital (${currentMode}):</b>
+        <div class="bot-answer-content">${formattedMain}</div>
+        ${citationHTML}
+      `;
+    } else if (data && data.message) {
+      loadingEl.innerHTML = `<span style="color: red;">Dify Error: ${data.message}</span>`;
+    } else {
+      loadingEl.innerHTML = `<b>SAKU Digital:</b> Maaf, tidak ada respons dari server.`;
+    }
+
+  } catch (error) {
+    console.error("Error API Dify:", error);
+    const loadingEl = document.getElementById(loadingId);
+    if (loadingEl) {
+      loadingEl.innerHTML = `<span style="color: red;">Gagal terhubung ke AI Dify. Periksa koneksi internet Anda.</span>`;
+    }
+  }
+  logDiv.scrollTop = logDiv.scrollHeight;
+});
+
+function fillQuery(text) {
+  const inputEl = document.getElementById('q');
+  if (inputEl) {
+    inputEl.value = text;
+    inputEl.focus();
+    autoResize(inputEl);
+  }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+}
+
+function handleKeyPress(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    document.getElementById('f').dispatchEvent(new Event('submit'));
+  }
+}
+</script>
+</body>
+</html>
