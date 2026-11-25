@@ -10,7 +10,7 @@ export default async function handler(req, res) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      inputs: { mode },                 // harus ada variabel "mode" di Start node Dify
+      inputs: { Mode: mode },                 // harus ada variabel "mode" di Start node Dify
       query,
       response_mode: 'blocking',
       conversation_id: conversation_id || '',
